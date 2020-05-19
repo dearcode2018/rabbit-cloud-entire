@@ -43,7 +43,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.hua.RenrenApplication;
+import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
 
 
@@ -59,7 +59,7 @@ import com.hua.test.BaseTest;
 // for Junit 5.x
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration(value = "src/main/webapp")
-@SpringBootTest(classes = {RenrenApplication.class}, 
+@SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public final class TemplateControllerTest extends BaseTest {
 

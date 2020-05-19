@@ -5,7 +5,7 @@
 	<groupId>com.hua</groupId>
 	<artifactId>rabbit-cloud-generator</artifactId>
 	<name>rabbit-cloud-generator</name>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<description>rabbit-cloud-generator</description>
 

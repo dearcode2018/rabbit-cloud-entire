@@ -1,7 +1,7 @@
 @ rem ----- 信息 -----
-@ rem @filename x.bat
+@ rem @filename StartRabbitCloud.bat
 @ rem @version 1.0
-@ rem @description 
+@ rem @description 启动云兔
 @ rem @author qye.zheng
 
 @ rem @warning 为了防止中文环境乱码，保存文件的时候，应该保存为ANSI编码格式.
@@ -9,8 +9,10 @@
 
 
 @ rem 标题
-@ title 初始化 MySql 主目录
+@ title 启动云兔
 @ rem ########## begin  ##########
+
+
 
 @ rem 关闭显示命令，使所有命令执行前不显示
 @ rem @ echo off
@@ -18,21 +20,34 @@
 @ rem 打开命令显示 @ echo on
 
 @ rem ----- 变量声明区
-:: 设置 mysql 主目录
-set MYSQL_HOME=D:\"software"\"mysql-winx64"
+@ rem JVM 参数配置，-Xms最小内存，-Xmx最大内存
+set JAVA_OPTS="-Xms1024m -Xmx2048m \
+-XX:MetaspaceSize=128m \
+-XX:MaxMetaspaceSize=256m \
+-Xss768k \
+-Xmn1024m \
+-XX:+AggressiveOpts \
+-XX:+UseBiasedLocking \
+-XX:+CMSParallelRemarkEnabled \
+-XX:+UseConcMarkSweepGC \
+-XX:ParallelGCThreads=2 \
+-XX:SurvivorRatio=4 \
+-XX:TargetSurvivorRatio=80 \
+-verbose:gc \
+-XX:+PrintGCDetails \
+-XX:+PrintGCDateStamps \
+-XX:+PrintHeapAtGC \
+-Xloggc:gc.log \
+-XX:+HeapDumpOnOutOfMemoryError \
+-XX:HeapDumpPath=dump.logs"
 
-:: mysql root 明文密码
-set MYSQL_ROOT_PASSWORD=root
-
-:: 截取所在的磁盘驱动
-set diskDriver=%MYSQL_HOME:~0,2%
-
+set SVC_JAR_NAME="-1.0.0.jar"
 
 @ rem ----- 程序设计区
 
 :: 进入 home 路径所在的磁盘驱动器
 %diskDriver%
-
+java -Dserver.port=%SVC_PORT% -Denv=${SVC_ENV% -DES_SERVER=${ES_SERVER% -jar %SVC_JAR_NAME% %PROGRAM_OPTS% 
 @ rem pause
 
 @ rem

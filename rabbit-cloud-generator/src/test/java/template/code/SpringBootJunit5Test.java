@@ -31,7 +31,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.hua.RenrenApplication;
+import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
 
 
@@ -47,7 +47,7 @@ import com.hua.test.BaseTest;
 // for Junit 5.x
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration(value = "src/main/webapp")
-@SpringBootTest(classes = {RenrenApplication.class}, 
+@SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
 public final class SpringBootJunit5Test extends BaseTest {
