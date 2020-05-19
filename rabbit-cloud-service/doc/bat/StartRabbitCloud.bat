@@ -18,30 +18,19 @@
 @ rem @ echo off
 @ echo off
 @ rem 打开命令显示 @ echo on
-
+set SVC_PORT=8080
+set PROGRAM_OPTS=
 @ rem ----- 变量声明区
 @ rem JVM 参数配置，-Xms最小内存，-Xmx最大内存
-set JAVA_OPTS="-Xms1024m -Xmx2048m \
--XX:MetaspaceSize=128m \
--XX:MaxMetaspaceSize=256m \
--Xss768k \
--Xmn1024m \
--XX:+AggressiveOpts \
--XX:+UseBiasedLocking \
--XX:+CMSParallelRemarkEnabled \
--XX:+UseConcMarkSweepGC \
--XX:ParallelGCThreads=2 \
--XX:SurvivorRatio=4 \
--XX:TargetSurvivorRatio=80 \
--verbose:gc \
--XX:+PrintGCDetails \
--XX:+PrintGCDateStamps \
--XX:+PrintHeapAtGC \
--Xloggc:gc.log \
--XX:+HeapDumpOnOutOfMemoryError \
--XX:HeapDumpPath=dump.logs"
+set JAVA_OPTS=%JAVA_OPTS%" -Xms1024m -Xmx2048m -XX:MetaspaceSize=128m"
+set JAVA_OPTS=%JAVA_OPTS%" -XX:MaxMetaspaceSize=256m -Xss768k -Xmn1024m -XX:+AggressiveOpts -XX:+UseBiasedLocking"
+set JAVA_OPTS=%JAVA_OPTS%" -XX:+CMSParallelRemarkEnabled -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=2 -XX:SurvivorRatio=4"
+set JAVA_OPTS=%JAVA_OPTS%" -XX:TargetSurvivorRatio=80 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps" 
+set JAVA_OPTS=%JAVA_OPTS%" -XX:+PrintHeapAtGC -Xloggc:gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=dump.logs"
 
-set SVC_JAR_NAME="-1.0.0.jar"
+set SVC_JAR_NAME="rabbit-cloud-service-1.0.0.jar"
+
+set HOME_LOCATION="http://localhost:8080/rabbit/vue/index.html"
 
 @ rem ----- 程序设计区
 
@@ -49,6 +38,9 @@ set SVC_JAR_NAME="-1.0.0.jar"
 %diskDriver%
 java -Dserver.port=%SVC_PORT% -Denv=${SVC_ENV% -DES_SERVER=${ES_SERVER% -jar %SVC_JAR_NAME% %PROGRAM_OPTS% 
 @ rem pause
+
+@ rem 打开浏览器
+::start %HOME_LOCATION%
 
 @ rem
 

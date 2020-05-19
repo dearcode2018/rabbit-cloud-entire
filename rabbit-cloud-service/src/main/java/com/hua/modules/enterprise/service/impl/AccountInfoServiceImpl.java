@@ -18,6 +18,7 @@ import com.hua.common.util.Query;
 import com.hua.modules.enterprise.dao.AccountInfoDao;
 import com.hua.modules.enterprise.entity.AccountInfoEntity;
 import com.hua.modules.enterprise.service.AccountInfoService;
+import com.hua.util.AESUtil;
 import com.hua.util.SqlUtil;
 import com.hua.util.StringUtil;
 
@@ -45,7 +46,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoDao, AccountI
     	wrapper.and(null != params.get("type"), (x) ->x.eq("type", params.get("type")));    	
     	wrapper.and(null != params.get("status"), (x) ->x.eq("status", params.get("status")));    	
     	wrapper.orderByDesc("UPDATE_GMT");
-    	
+    	wrapper.select(AccountInfoEntity.class, (x -> !x.getColumn().toUpperCase().contains("PASSWORD")));
         final IPage<AccountInfoEntity> page = this.page(new Query<AccountInfoEntity>().getPage(params), wrapper);        
 
         return new PageUtils(page);
@@ -54,7 +55,17 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoDao, AccountI
 
     @Override
     public AccountInfoEntity getById(Serializable id) {
-        return baseMapper.selectById(id);
+    	final AccountInfoEntity entity = baseMapper.selectById(id);
+    	if (null != entity) { // 解码
+    		if (StringUtil.isNotEmpty(entity.getLoginPassword())) {
+    			entity.setLoginPassword(new String(AESUtil.decrypt(StringUtil.parseHexString2Byte(entity.getLoginPassword()), key)));
+    		}
+    		if (StringUtil.isNotEmpty(entity.getTradePassword())) {
+    			entity.setTradePassword(new String(AESUtil.decrypt(StringUtil.parseHexString2Byte(entity.getTradePassword()), key)));
+    		}
+    	}
+    	
+        return entity;
     }
 
 
@@ -65,6 +76,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoDao, AccountI
     
     @Override
     public boolean save(AccountInfoEntity entity) {
+    	setValue(entity);
     	entity.setUpdateGmt(new Date());
     	entity.setCreateGmt(new Date());
         return retBool(baseMapper.insert(entity));
@@ -72,10 +84,29 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoDao, AccountI
     
     @Override
     public boolean updateById(AccountInfoEntity entity) {
+    	setValue(entity);
     	entity.setUpdateGmt(new Date());
         return retBool(baseMapper.updateById(entity));
     }
-	
+    
+    /**
+     * 
+     * @description 
+     * @param entity
+     * @author qianye.zheng
+     */
+    private void setValue(final AccountInfoEntity entity) {
+    	// 登录密码
+    	if (StringUtil.isNotEmpty(entity.getLoginPassword())) { // 编码
+    		final byte[] data = AESUtil.encrypt(entity.getLoginPassword().getBytes(), key);
+    		entity.setLoginPassword(StringUtil.parseByte2HexString(data, true));
+    	}
+    	// 交易密码
+    	if (StringUtil.isNotEmpty(entity.getTradePassword())) { // 编码
+    		final byte[] data = AESUtil.encrypt(entity.getTradePassword().getBytes(), key);
+    		entity.setTradePassword(StringUtil.parseByte2HexString(data, true));
+    	}
+    }
     
 
 }

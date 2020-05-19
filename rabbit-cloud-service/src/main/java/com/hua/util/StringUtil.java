@@ -326,4 +326,93 @@ public final class StringUtil extends org.apache.commons.lang3.StringUtils {
 		
 		return result;
 	}
+	
+	/**
+	 * 
+	 * @description 字节数组转成16进制字符串
+	 * @param array
+	 * @param upperCase 是否转成大写
+	 * @return
+	 * @author qye.zheng
+	 */
+	public static final String parseByte2HexString(final byte[] array, final boolean upperCase)
+	{
+		/*
+		 * 0: 八进制的前缀
+		 * 0X: 十六进制的前缀
+		 * 二进制、十进制: 无前缀
+		 * (Binary 2进制)1111 = (OctaSystem 8进制)017 = (Decimal 10进制)15 = (Hexadecimal 16进制)0XF
+		 * 16进制单个数字最大值为F: 4位二进制，3位八进制，2位十进制
+		 * 单个字节: 最大值对应8位二进制，对应2位16进制
+		 */
+		final StringBuilder builder = StringUtil.getBuilder();
+		int value = 0;
+		for (int i = 0; i < array.length; i++)
+		{
+			String hex = null;
+			// 8位(包含符号位)字节 转换 为 32位整型
+			value = array[i] & 0XFF;
+			// 转成16进制格式的字符串 (0 ~ f)
+			hex = Integer.toHexString(value);
+			if (hex.length() == 1)
+			{
+				// 补 0
+				hex = '0' + hex;
+			}
+			// 大小写转换
+			if (upperCase) {// 大写
+				builder.append(hex.toUpperCase());
+			} else {// 小写
+				builder.append(hex.toLowerCase());
+			}
+		}
+		
+		return builder.toString();
+	}
+	
+	/**
+	 * 
+	 * @description 字节数组转成16进制大写字符串
+	 * @param array
+	 * @return
+	 * @author qye.zheng
+	 */
+	public static final String parseByte2HexString(final byte[] array)
+	{
+		return parseByte2HexString(array, true);
+	}
+	
+	/**
+	 * 
+	 * @description 16进制字符串转成字节数组
+	 * @param hexString 16进制字符串，支持任意位数的16进制数，奇数/偶数位均可，偶数位为标准的16进制数
+	 * @return
+	 * @author qye.zheng
+	 */
+	public static final byte[] parseHexString2Byte(String hexString)
+	{
+		byte[] array = null;
+		if (StringUtil.isEmpty(hexString))
+		{
+			return array;
+		}
+		// 基数
+		final int radix = 16;
+		if (0 != (hexString.length() % 2)) { // 奇数位，最高位补0
+			hexString = "0" + hexString;
+		}
+		// 字节数量，每2个字符对应一个字节
+		final int count = hexString.length() / 2;
+		array = new byte[count];
+		Integer decimal = -1;
+		for (int i = 0; i < count; i++)
+		{
+			final int start = i * 2;
+			decimal = Integer.parseInt(hexString.substring(start, start + 2), radix);
+			//
+			array[i] = decimal.byteValue();
+		}
+		
+		return array;
+	}
 }

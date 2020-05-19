@@ -50,7 +50,7 @@
         prop="master"
         header-align="center"
         align="center"
-        label="主账号" width="200">
+        label="主账号" width="260">
       </el-table-column>
       <el-table-column
         prop="salve"
@@ -68,7 +68,7 @@
         prop="type"
         header-align="center"
         align="center"
-        label="类型" width="100">
+        label="类型" width="50">
       <template slot-scope="scope">
         <!-- 通过（scope.row）拿到当前行数据-->
 		<div v-if="scope.row.type==1">社交</div>
@@ -85,7 +85,7 @@
         prop="status"
         header-align="center"
         align="center"
-        label="状态" width="70">
+        label="状态" width="50">
       <template slot-scope="scope">
         <!-- 通过（scope.row）拿到当前行数据-->
 		<div v-if="scope.row.status==1">有效</div>
@@ -97,20 +97,20 @@
         prop="updateGmt"
         header-align="center"
         align="center"
-        label="更新时间">
+        label="更新时间" width="170">
       </el-table-column>
       <el-table-column
         prop="createGmt"
         header-align="center"
         align="center"
-        label="创建时间">
+        label="创建时间" width="170">
       </el-table-column>
       <el-table-column
      	v-if="isAuth('enterprise:accountinfo:update') || isAuth('enterprise:accountinfo:delete')"
         fixed="right"
         header-align="center"
         align="center"
-        width="150"
+        width="100"
         label="操作">
         <template slot-scope="scope">
           <el-button v-if="isAuth('enterprise:accountinfo:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>

@@ -242,7 +242,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>

@@ -1,7 +1,7 @@
 @ rem ----- 信息 -----
-@ rem @filename StartPackage.bat
+@ rem @filename StartPackageQa.bat
 @ rem @version 1.0
-@ rem @description 开发/测试打包
+@ rem @description 测试环境打包
 @ rem @author qye.zheng
 
 @ rem @warning 为了防止中文环境乱码，保存文件的时候，应该保存为ANSI编码格式.
@@ -9,7 +9,7 @@
 
 
 @ rem 标题
-@ title 打包
+@ title 测试环境打包
 @ rem ########## begin  ##########
 
 @ rem 关闭显示命令，使所有命令执行前不显示
@@ -32,6 +32,7 @@ rd /S /Q dist
 @ rem 执行 node命令，以开发模式运行 
 @rem npm run build --prod
 :: cnpm run build --dev
+:: cnpm run build --qa
 cnpm run build --qa
 @ rem ----- 变量声明区
 :: 设置暂停标识

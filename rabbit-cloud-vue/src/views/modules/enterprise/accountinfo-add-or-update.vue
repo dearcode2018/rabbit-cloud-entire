@@ -14,10 +14,11 @@
       <el-input v-model="dataForm.salve" placeholder="从账号，多个用|隔开"></el-input>
     </el-form-item>
     <el-form-item label="登录密码" prop="loginPassword">
-      <el-input v-model="dataForm.loginPassword" placeholder="登录密码"></el-input>
-    </el-form-item>
+      <el-input v-model="dataForm.loginPassword" placeholder="登录密码"></el-input>  	  
+    </el-form-item>	
     <el-form-item label="交易密码" prop="tradePassword">
-      <el-input v-model="dataForm.tradePassword" placeholder="交易密码"></el-input>
+      <el-input v-model="dataForm.tradePassword" placeholder="交易密码">
+	  </el-input>
     </el-form-item>
     <el-form-item label="有效期" prop="validPeriod">
       <el-input v-model="dataForm.validPeriod" placeholder="有效期，长期或区间"></el-input>
@@ -47,7 +48,7 @@
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
+      <el-button @click="visible = false">取消</el-button>	  
       <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
     </span>
   </el-dialog>
